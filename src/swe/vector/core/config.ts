@@ -87,6 +87,20 @@ export interface ChromaNestedConfig {
 }
 
 /**
+ * Qdrant configuration (for vector storage)
+ */
+export interface QdrantNestedConfig {
+	/** Qdrant server URL (default: http://localhost:6333 or QDRANT_URL env var) */
+	url?: string;
+	/** API key for Qdrant Cloud or authenticated servers (optional) */
+	apiKey?: string;
+	/** Collection name prefix (default: 'code_chunks') */
+	collectionPrefix?: string;
+	/** Distance function: 'Cosine' | 'Euclid' | 'Dot' (default: 'Cosine') */
+	distanceFunction?: 'Cosine' | 'Euclid' | 'Dot';
+}
+
+/**
  * Embedding configuration
  */
 export interface EmbeddingConfig {
@@ -176,6 +190,10 @@ export interface VectorStoreConfig {
 	// === ChromaDB Configuration ===
 	/** ChromaDB settings (for local vector storage) */
 	chroma?: ChromaNestedConfig;
+
+	// === Qdrant Configuration ===
+	/** Qdrant settings (for vector search) */
+	qdrant?: QdrantNestedConfig;
 
 	// === Embedding Configuration ===
 	/** Embedding settings */
@@ -700,6 +718,18 @@ export async function createVectorOrchestrator(repoRoot: string): Promise<IVecto
 		if (!config.indexed) return null;
 
 		// Determine backend based on config
+		if (config.qdrant?.url) {
+			// Use Qdrant - dynamic import to avoid loading when not needed
+			const { buildQdrantConfig, QdrantOrchestrator } = await import('../qdrant/index.js');
+			return new QdrantOrchestrator(repoRoot, config);
+		}
+
+		if (config.chroma?.url) {
+			// Use ChromaDB - dynamic import to avoid loading when not needed
+			const { ChromaOrchestrator } = await import('../chroma/index.js');
+			return new ChromaOrchestrator(repoRoot, config);
+		}
+
 		if (config.alloydb?.host || config.alloydb?.instance) {
 			// Use AlloyDB - dynamic import to avoid loading when not needed
 			const { buildAlloyDBConfig, AlloyDBOrchestrator } = await import('../alloydb/index.js');
