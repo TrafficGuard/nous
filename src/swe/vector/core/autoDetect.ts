@@ -1,6 +1,6 @@
-import type { AlloyDBNestedConfig, ChromaNestedConfig, DiscoveryEngineConfig, GoogleCloudConfig, VectorStoreConfig } from './config';
+import type { AlloyDBNestedConfig, ChromaNestedConfig, DiscoveryEngineConfig, GoogleCloudConfig, QdrantNestedConfig, VectorStoreConfig } from './config';
 
-export type VectorBackend = 'alloydb' | 'discovery-engine' | 'chroma';
+export type VectorBackend = 'alloydb' | 'discovery-engine' | 'chroma' | 'qdrant';
 
 export interface BackendDetection {
 	backend: VectorBackend | null;
@@ -18,7 +18,28 @@ export interface BackendDetection {
  * 4. null - No backend detected
  */
 export function detectBackend(): BackendDetection {
-	// 1. Check for ChromaDB (local-first)
+	// 1. Check for Qdrant
+	const qdrantUrl = process.env.QDRANT_URL;
+	if (qdrantUrl) {
+		const qdrant: QdrantNestedConfig = {
+			url: qdrantUrl,
+			apiKey: process.env.QDRANT_API_KEY,
+		};
+
+		return {
+			backend: 'qdrant',
+			reason: 'Qdrant detected via QDRANT_URL',
+			config: {
+				qdrant,
+				embedding: {
+					provider: 'ollama',
+					model: process.env.OLLAMA_EMBEDDING_MODEL || 'manutic/nomic-embed-code',
+				},
+			},
+		};
+	}
+
+	// 2. Check for ChromaDB (local-first)
 	const chromaUrl = process.env.CHROMA_URL;
 	if (chromaUrl) {
 		const chroma: ChromaNestedConfig = {
@@ -41,7 +62,7 @@ export function detectBackend(): BackendDetection {
 		};
 	}
 
-	// 2. Check for AlloyDB/Postgres
+	// 3. Check for AlloyDB/Postgres
 	const pgHost = process.env.ALLOYDB_HOST || process.env.PGHOST;
 	if (pgHost) {
 		const alloydb: AlloyDBNestedConfig = {
@@ -59,7 +80,7 @@ export function detectBackend(): BackendDetection {
 		};
 	}
 
-	// 3. Check for Discovery Engine
+	// 4. Check for Discovery Engine
 	const gcpProject = process.env.GCLOUD_PROJECT;
 	if (gcpProject) {
 		const googleCloud: GoogleCloudConfig = {
@@ -80,7 +101,7 @@ export function detectBackend(): BackendDetection {
 		};
 	}
 
-	// 4. No backend detected
+	// 5. No backend detected
 	return {
 		backend: null,
 		reason: 'No backend detected',
@@ -96,6 +117,7 @@ export function requireBackend(): BackendDetection {
 	if (!detection.backend) {
 		throw new Error(
 			'No vector backend detected. Set one of:\n' +
+				'  - QDRANT_URL (for Qdrant + Ollama, local development)\n' +
 				'  - CHROMA_URL (for ChromaDB + Ollama, local development)\n' +
 				'  - ALLOYDB_HOST or PGHOST (for AlloyDB/Postgres)\n' +
 				'  - GCLOUD_PROJECT (for Discovery Engine)',
@@ -109,6 +131,19 @@ export function requireBackend(): BackendDetection {
  */
 export function buildBackendConfig(backend: VectorBackend): Partial<VectorStoreConfig> {
 	switch (backend) {
+		case 'qdrant': {
+			const qdrant: QdrantNestedConfig = {
+				url: process.env.QDRANT_URL || 'http://localhost:6333',
+				apiKey: process.env.QDRANT_API_KEY,
+			};
+			return {
+				qdrant,
+				embedding: {
+					provider: 'ollama',
+					model: process.env.OLLAMA_EMBEDDING_MODEL || 'manutic/nomic-embed-code',
+				},
+			};
+		}
 		case 'chroma': {
 			const chroma: ChromaNestedConfig = {
 				url: process.env.CHROMA_URL || 'http://localhost:8000',
@@ -146,5 +181,7 @@ export function buildBackendConfig(backend: VectorBackend): Partial<VectorStoreC
 			};
 			return { googleCloud, discoveryEngine };
 		}
+		default:
+			throw new Error(`Unknown backend: ${backend}`);
 	}
 }
