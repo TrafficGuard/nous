@@ -237,3 +237,65 @@ export class Jira {
 ## Contributing
 
 We warmly welcome contributions to the project through [issues](https://github.com/TrafficGuard/typedai/issues), [pull requests](https://github.com/TrafficGuard/typedai/pulls)  or [discussions](https://github.com/TrafficGuard/typedai/discussions)
+
+## ❓ FAQ
+
+### What is TypedAI?
+
+TypedAI is a TypeScript AI platform featuring:
+- **AI Chat**: Conversational interface with multiple LLM providers
+- **Autonomous Agents**: Self-directed AI agents that can perform complex tasks
+- **Software Developer Agents**: AI-powered coding assistants for code review, generation, and more
+- **Flexible Deployment**: Run locally or deploy to cloud platforms
+
+### Which LLM providers are supported?
+
+TypedAI supports multiple LLM providers including:
+- **OpenAI**: GPT-4o, GPT-4, GPT-3.5 Turbo
+- **Anthropic**: Claude models
+- **Local models**: Via compatible APIs
+- **Custom endpoints**: Any OpenAI-compatible API
+
+Configure your provider in the agent settings or environment variables.
+
+### How do I set up autonomous agents?
+
+1. **Create an Agent**: Use the UI or CLI to define a new agent with a specific goal
+2. **Configure Tools**: Assign tools the agent can use (file operations, web search, code execution, etc.)
+3. **Set Constraints**: Define boundaries and rules for the agent's behavior
+4. **Run**: Start the agent and monitor its progress through the UI
+
+See the [Code Examples](#code-examples) section for agent configuration samples.
+
+### What is the difference between Autonomous Agents and Developer Agents?
+
+- **Autonomous Agents**: General-purpose agents that can perform a wide range of tasks based on their configuration and tools. They operate independently to achieve defined goals.
+- **Developer Agents**: Specialized agents focused on software development tasks like code review, bug detection, code generation, and documentation. They have developer-specific tools and knowledge.
+
+### How do I deploy TypedAI?
+
+TypedAI offers flexible deployment options:
+- **Local Development**: Run with `npm run dev` for development
+- **Docker**: Containerized deployment for consistent environments
+- **Cloud**: Deploy to any Node.js-compatible platform (Vercel, Railway, etc.)
+
+### Can I use TypedAI with my own API keys?
+
+Yes! TypedAI is designed to work with your own API keys. Configure your provider's API key in:
+- Environment variables (e.g., `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`)
+- Agent-specific settings in the UI
+- Configuration files
+
+### How do I contribute to TypedAI?
+
+Contributions are welcome! Key areas:
+- New agent types and capabilities
+- Additional LLM provider integrations
+- UI/UX improvements
+- Bug fixes and performance optimizations
+- Documentation and examples
+
+### Where can I get help?
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/TrafficGuard/typedai/issues)
+- **Discussions**: [Join the community](https://github.com/TrafficGuard/typedai/discussions)
