@@ -237,3 +237,118 @@ export class Jira {
 ## Contributing
 
 We warmly welcome contributions to the project through [issues](https://github.com/TrafficGuard/typedai/issues), [pull requests](https://github.com/TrafficGuard/typedai/pulls)  or [discussions](https://github.com/TrafficGuard/typedai/discussions)
+
+## FAQ
+
+### What is TypedAI?
+
+TypedAI is the TypeScript-first AI platform for developers. It provides autonomous AI agents and LLM-based workflows, including software engineering agents, code review agents, chatbots, and observability tools.
+
+### How does TypedAI compare to LangChain or CrewAI?
+
+- **TypedAI**: TypeScript-first, full platform with autonomous agents, software engineer agents, code review, chatbots, CLI + Web UI, multi-tenant SSO, OpenTelemetry observability
+- **LangChain**: Chain-based orchestration library, requires more boilerplate for autonomous agents
+- **CrewAI**: Role-playing multi-agent framework, focused on collaboration patterns
+
+TypedAI uses simple control flow with static typing, avoiding the LangChain abstraction overhead. See the [TypedAI vs LangChain comparison](https://typedai.dev) in the README.
+
+### What LLM providers does TypedAI support?
+
+TypedAI supports multiple LLM services:
+- OpenAI (GPT-4, GPT-3.5)
+- Anthropic (Claude, native & Vertex)
+- Google Gemini
+- Groq (Llama, Mixtral)
+- Fireworks
+- Together.ai
+- DeepSeek
+- Ollama (local)
+- Cerebras
+- SambaNova
+- OpenRouter
+- X.ai (Grok)
+
+### What are the key features of TypedAI agents?
+
+- **Autonomous AI Agents**: Self-Discover reasoning, memory, function call history, hierarchical task decomposition
+- **Software Engineer Agent**: Auto-detection of project init/compile/test/lint, task file selection, design planning, code editing loop with compile/lint/test/fix
+- **Code Review Agent**: Configurable guidelines, posts comments on GitLab/GitHub merge requests with suggested changes
+- **Chatbot**: Slack chatbot, AI chat interface
+
+### How do I get started with TypedAI?
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/TrafficGuard/typedai.git
+   cd typedai
+   ```
+
+2. **Run with Docker** (single user mode):
+   ```bash
+   docker build -t typedai .
+   docker run -p 3000:3000 typedai
+   ```
+
+3. **CLI usage**:
+   ```bash
+   ai query "What test frameworks does this repository use?"
+   ai code "Add error handling to the user authentication function"
+   ```
+
+### What deployment options are available?
+
+- **Local**: Run from repository or Dockerfile in single user mode
+- **CLI interface**: Command-line tools for automation
+- **Web interface**: Browser-based UI
+- **Cloud Run**: Scale-to-zero deployment on Firestore & Cloud Run
+- **Enterprise**: Multi-user SSO deployment with Google Cloud IAP
+
+### What integrations/tools are available?
+
+TypedAI provides functional callable tools:
+- Filesystem
+- Jira
+- Slack
+- Perplexity
+- Google Cloud
+- GitLab
+- GitHub
+- Custom tools via `@func` decorator
+
+### How does the autonomous agent reasoning work?
+
+TypedAI autonomous agents use reasoning/planning inspired from Google's [Self-Discover](https://arxiv.org/abs/2402.03620):
+- Memory and function call history
+- Iterative planning with hierarchical task decomposition
+- Sandboxed execution of generated code
+- LLM function schemas auto-generated from source code
+- Human-in-the-loop for budget control and error handling
+
+### What observability features are available?
+
+TypedAI provides OpenTelemetry-based observability:
+- Traces for agent LLM calls
+- Metrics for performance monitoring
+- Sample traces viewable in Google Cloud
+
+### How do I create custom tools?
+
+Use the `@func` decorator on class methods:
+
+```typescript
+@funcClass(__filename)
+export class MyTools {
+    @func()
+    async myFunction(param: string): Promise<string> {
+        // Implementation
+    }
+}
+```
+
+### Where can I find help?
+
+- [Documentation](https://typedai.dev/)
+- [Setup Guide](https://typedai.dev/setup/)
+- [Autonomous Agents](https://typedai.dev/autonomous-agents/)
+- [GitHub Issues](https://github.com/TrafficGuard/typedai/issues)
+- [GitHub Discussions](https://github.com/TrafficGuard/typedai/discussions)
