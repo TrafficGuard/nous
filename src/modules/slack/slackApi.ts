@@ -144,7 +144,7 @@ export class SlackAPI {
 	 * Adds a reaction to a Slack message (e.g., 🤖💥 for "bot broken")
 	 * @param channel Slack channel ID (e.g., "C1234567890")
 	 * @param messageTimestamp Message timestamp (e.g., "1629378123.000200" from event.message.ts)
-	 * @param reaction Emoji name e.g., "robot_face::boom" (seperate mutliple with ::). Default is 🤖
+	 * @param reaction Emoji name e.g., "robot_face::boom" (separate multiple with ::). Default is 🤖
 	 */
 	async addReaction(channel: string, messageTimestamp: string, reaction = 'robot_face'): Promise<void> {
 		try {

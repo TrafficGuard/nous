@@ -215,7 +215,7 @@ Next we need to write a function that can retrieve the top matching chunks from 
     
         return list(np.argsort(-similarity_scores)[0][:top_k])
       
-    vector_retreival(query = "What are 'skip-level' meetings?", 
+    vector_retrieval(query = "What are 'skip-level' meetings?",
                      top_k = 5, 
                      vector_index = contextual_embeddings)
 
@@ -259,8 +259,8 @@ Similar to the function above which produces vector results from the vector inde
 Once a user submits a query we are going to use both functions above to perform Vector and BM25 retrieval and then fuse the ranks using the RRF algorithm implemented below.
 
     # Example ranked lists from different sources
-    vector_top_k = vector_retreival(query = "What are 'skip-level' meetings?", top_k = 5, vector_index = contextual_embeddings)
-    bm25_top_k = bm25_retreival(query = "What are 'skip-level' meetings?", k = 5, bm25_index = retriever)
+    vector_top_k = vector_retrieval(query = "What are 'skip-level' meetings?", top_k = 5, vector_index = contextual_embeddings)
+    bm25_top_k = bm25_retrieval(query = "What are 'skip-level' meetings?", k = 5, bm25_index = retriever)
 
 
 The Reciprocal Rank Fusion algorithm takes two ranked list of objects and combines them:
@@ -314,9 +314,9 @@ Now we add a retrieval quality improvement step here to make sure only the highe
     )
     
     for result in response.results:
-        retreived_chunks += hybrid_top_k_docs[result.index] + '\n\n'
+        retrieved_chunks += hybrid_top_k_docs[result.index] + '\n\n'
     
-    print(retreived_chunks)
+    print(retrieved_chunks)
 
 
 This will produce the following three chunks from our essay:
@@ -338,7 +338,7 @@ We will pass the finalized 3 chunks into an LLM to get our final answer.
         model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
         messages=[
           {"role": "system", "content": "You are a helpful chatbot."},
-          {"role": "user", "content": f"Answer the question: {query}. Here is relevant information: {retreived_chunks}"},
+          {"role": "user", "content": f"Answer the question: {query}. Here is relevant information: {retrieved_chunks}"},
         ],
     )
 

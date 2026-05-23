@@ -61,7 +61,7 @@ export class ReasonerDebateLLM extends BaseLLM {
 
 	/**
 	 *
-	 * @param modelIds LLM model ids to use seperated by the pipe character. The first id will be used as the mediator. The remaining will be used as the initial response/debate generation.
+	 * @param modelIds LLM model ids to use separated by the pipe character. The first id will be used as the mediator. The remaining will be used as the initial response/debate generation.
 	 * @param providedMediator
 	 * @param providedDebateLLMs
 	 * @param name
