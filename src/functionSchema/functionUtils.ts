@@ -1,5 +1,5 @@
 /**
- * Parse a string into an array. Handles JSON array and line seperated formatting.
+ * Parse a string into an array. Handles JSON array and line-separated formatting.
  * @param paramValue
  */
 export function parseArrayParameterValue(paramValue: string): string[] {

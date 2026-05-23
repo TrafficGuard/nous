@@ -220,7 +220,7 @@ export function parseUserCliArgs(scriptName: string, scriptArgs: string[]): CliO
 
 	if (!stdinPrompt && (initialPrompt.startsWith('-f') || initialPrompt.startsWith('-t') || initialPrompt.startsWith('--fs') || initialPrompt.startsWith('-r')))
 		throw new Error(
-			'If running a `npm run` command, the program arguments need to be seperated by "--". e.g. "npm run agent -- -f=code,web,jira". Alternatively use the `ai` script as an alias for `npm run` which doesnt required the -- seperator, and can be run from any directory.',
+			'If running a `npm run` command, the program arguments need to be separated by "--". e.g. "npm run agent -- -f=code,web,jira". Alternatively use the `ai` script as an alias for `npm run` which doesnt required the -- separator, and can be run from any directory.',
 		);
 
 	// logger.debug({ functionClasses }, 'Parsed function classes');

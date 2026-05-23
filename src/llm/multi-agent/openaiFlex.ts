@@ -114,10 +114,10 @@ This class uses a combination GPT5 with the standard and flex service tiers, to 
 Call(s) are made with the flex tier, up to a timeout configured in the class.
 If there has not been a response with the flex tier configuration, then a call will be made with the standard tier to ensure progress continues.
 
-The generateTextFromMessages implementation will call the flex tier first in streaming mode. If the flex tier call has started to recieve a response,
+The generateTextFromMessages implementation will call the flex tier first in streaming mode. If the flex tier call has started to receive a response,
 then we will cancel any timeouts and continue with the flex tier call.
 
-If the flex tier call does not start to recieve a response within the timeout, then we will cancel the flex tier call and make a call with the standard tier.
+If the flex tier call does not start to receive a response within the timeout, then we will cancel the flex tier call and make a call with the standard tier.
 
 We want to be able to collect statistics on how long it takes for the flex tier to start recieving a response, and how often we need to fallback to the standard tier.
 */

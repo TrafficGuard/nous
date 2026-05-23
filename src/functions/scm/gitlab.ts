@@ -27,7 +27,7 @@ export interface GitLabConfig {
 	token: string;
 	secretName?: string;
 	secretProject?: string;
-	/** Comma seperated list of the top level groups */
+	/** Comma-separated list of the top level groups */
 	topLevelGroups: string[];
 	groupExcludes?: Set<string>;
 }
