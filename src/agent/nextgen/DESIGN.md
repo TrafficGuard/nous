@@ -44,7 +44,7 @@ The NextGen agent architecture is designed for **long-running autonomous coding 
 - Learn from past work to improve code quality
 - Keep humans informed without requiring constant attention
 - **Resume from any point with full context** (domain memory)
-- **Verify progress through tests and a seperate review agent, not the implementing agent claims** (test-bound status)
+- **Verify progress through tests and a separate review agent, not the implementing agent claims** (test-bound status)
 
 ### Example Use Case
 
